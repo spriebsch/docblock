@@ -165,7 +165,11 @@ class DocBlock
     
     public function getParam($index)
     {
-         return str_replace('@param ', '', $this->getTag($index));
+        if (!isset($this->tags[$index])) {
+            return '';
+        }
+    
+        return str_replace('@param ', '', $this->tags[$index]);
     }
     
     public function getThrows()
