@@ -185,10 +185,6 @@ class DocBlock
     {
         foreach ($this->tags as $tag) {
             if ($this->isTag($tag, 'return')) {
-	            if ($this->isTag($tag, 'returns')) {
-                    return $this->removeTag('returns', $tag);
-                }
-            
                 return $this->removeTag('return', $tag);
             }
         }
