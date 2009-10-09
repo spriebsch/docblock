@@ -102,6 +102,17 @@ class DocBlock
     {
     	return trim(substr($string, 1 + strlen($tag)));
    	}
+   	
+    protected function getTag($name)
+    {
+        foreach ($this->tags as $tag) {
+            if ($this->isTag($tag, $name)) {
+                return $this->removeTag($name, $tag);
+            }
+        }
+        
+        throw new RuntimeException('No @' . $name . ' tag found');
+    }
     
     public function parse($docblock)
     {
@@ -137,9 +148,13 @@ class DocBlock
 
         // process the @ tags
 	    while (!$this->isLastLine($lineNumber)) {
-     	    if ($this->isTag($this->getLine($lineNumber))) {
-	            $this->tags[] = $this->getLine($lineNumber);
+     	    $line = $this->getLine($lineNumber);
+
+            // ignore non-tag lines (for example blank ones)
+     	    if ($this->isTag($line)) {
+	            $this->tags[] = $line;
 	        }
+
             $lineNumber++;
 	    }
     }
@@ -153,16 +168,7 @@ class DocBlock
     {
         return $this->longDescription;
     }
-    
-    public function getTag($index)
-    {
-        if (!isset($this->tags[$index])) {
-            return '';
-        }
-    
-        return $this->tags[$index];
-    }
-    
+        
     public function getParam($index)
     {
         if (!isset($this->tags[$index])) {
@@ -191,35 +197,17 @@ class DocBlock
     
     public function getReturn()
     {
-        foreach ($this->tags as $tag) {
-            if ($this->isTag($tag, 'return')) {
-                return $this->removeTag('return', $tag);
-            }
-        }
-        
-        throw new RuntimeException('No @return tag found');
+		return $this->getTag('return');
     }
     
     public function getVar()
     {
-        foreach ($this->tags as $tag) {
-            if ($this->isTag($tag, 'var')) {
-                return $this->removeTag('var', $tag);
-            }
-        }
-        
-        throw new RuntimeException('No @var tag found');
+		return $this->getTag('var');
     }
 
     public function getAuthor()
     {
-        foreach ($this->tags as $tag) {
-            if ($this->isTag($tag, 'author')) {
-                return $this->removeTag('author', $tag);
-            }
-        }
-        
-        throw new RuntimeException('No @author tag found');
+		return $this->getTag('author');
     }
 }
 ?>
