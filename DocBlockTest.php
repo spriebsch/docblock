@@ -161,6 +161,17 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('The Reason', $this->docBlock->getDeprecated());
     }
 
+    /**
+     * Make sure that has<Name> returns false on no @<Name>.
+     * Since has<Name> calls map to generic method hasTag(),
+     * we only need to test one arbitrary has call.
+     */
+    public function testHasGlobalInitiallyReturnsFalse()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/empty'));
+        $this->assertFalse($this->docBlock->hasGlobal());
+    }
+
     public function testGetGlobal()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/global'));

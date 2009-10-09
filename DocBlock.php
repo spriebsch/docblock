@@ -102,6 +102,17 @@ class DocBlock
     {
     	return trim(substr($string, 1 + strlen($tag)));
    	}
+
+    protected function hasTag($name)
+    {
+		foreach ($this->tags as $tag) {
+		    if ($this->isTag($tag, $name)) {
+		        return true;
+		    }
+		}
+        
+        return false;
+    }
    	
     protected function getTag($name)
     {
@@ -207,12 +218,16 @@ class DocBlock
      */
     public function __call($method, $parameters)
     {
-        if (substr($method, 0, 3) != 'get') {
+        if (substr($method, 0, 3) != 'get' && substr($method, 0, 3) != 'has') {
             throw new RuntimeException('Method ' . $method . ' does not exist');
         }
 
         // get<Name> -> <name>        
         $tag = lcfirst(substr($method, 3));
+
+        if (substr($method, 0, 3) == 'has') {
+            return $this->hasTag($tag);
+        }
         
         return $this->getTag($tag);
     }    
