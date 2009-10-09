@@ -224,5 +224,10 @@ class DocBlock
     {
 		return $this->getTag(array('since'));
     }
+
+    public function getSee()
+    {
+		return $this->getTag(array('see'));
+    }
 }
 ?>
