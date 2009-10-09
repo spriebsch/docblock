@@ -197,13 +197,21 @@ class DocBlock
     {
 		return $this->getTags(array('throws', 'exception'));
     }
-    
+
+    /**
+     * Delegates calls to get<name> to getTag(<name>).
+     *
+     * @param string $method Name of the called method
+     * @param array $parameters Parameters
+     * @return string
+     */
     public function __call($method, $parameters)
     {
         if (substr($method, 0, 3) != 'get') {
             return;
         }
-        
+
+        // get<Name> -> <name>        
         $tag = lcfirst(substr($method, 3));
         
         return $this->getTag($tag);
