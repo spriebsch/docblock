@@ -229,5 +229,10 @@ class DocBlock
     {
 		return $this->getTag(array('see'));
     }
+
+    public function getDeprecated()
+    {
+		return $this->getTag(array('deprecated'));
+    }
 }
 ?>
