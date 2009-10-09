@@ -113,6 +113,21 @@ class DocBlock
         
         throw new RuntimeException('No @' . $name . ' tag found');
     }
+
+    protected function getTags(array $names)
+    {
+        $result = array();
+
+        foreach ($names as $name) {
+		    foreach ($this->tags as $tag) {
+		        if ($this->isTag($tag, $name)) {
+		            $result[] = $this->removeTag($name, $tag);
+		        }
+		    }
+		}
+        
+        return $result;
+    }
     
     public function parse($docblock)
     {
@@ -180,19 +195,7 @@ class DocBlock
     
     public function getThrows()
     {
-        $result = array();
-
-        foreach ($this->tags as $tag) {
-            if ($this->isTag($tag, 'throws')) {
-                $result[] = $this->removeTag('throws', $tag);
-            }
-
-            if ($this->isTag($tag, 'exception')) {
-                $result[] = $this->removeTag('exception', $tag);
-            }
-        }
-        
-        return $result;
+		return $this->getTags(array('throws', 'exception'));
     }
     
     public function getReturn()
