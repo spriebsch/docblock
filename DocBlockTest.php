@@ -136,5 +136,11 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/author'));
         $this->assertEquals('The Name <email@example.com>', $this->docBlock->getAuthor());
     }
+
+    public function testGetVersion()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/version'));
+        $this->assertEquals('1.0.0', $this->docBlock->getVersion());
+    }
 }
 ?>

@@ -214,5 +214,10 @@ class DocBlock
     {
 		return $this->getTag(array('author'));
     }
+
+    public function getVersion()
+    {
+		return $this->getTag(array('version'));
+    }
 }
 ?>
