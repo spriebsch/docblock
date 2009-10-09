@@ -234,5 +234,10 @@ class DocBlock
     {
 		return $this->getTag(array('deprecated'));
     }
+
+    public function getGlobal()
+    {
+		return $this->getTag(array('global'));
+    }
 }
 ?>
