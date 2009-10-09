@@ -51,6 +51,10 @@ class DocBlock
     
     protected function preProcess($docblock)
     {
+        if ($docblock == '') {
+            throw new RuntimeException('Empty docblock');
+        }
+    
         // normalize line endings
         $docblock = str_replace("\r\n", "\n", $docblock);
         $docblock = str_replace("\r", "\n", $docblock);
@@ -167,6 +171,10 @@ class DocBlock
 			}
 
 			$this->longDescription = trim($this->longDescription);
+
+     	    if ($this->isLastLine($lineNumber)) {
+				return;
+     	    }
 
 			// skip blank lines below long description
 			$lineNumber = $this->skipEmptyLines($lineNumber);

@@ -55,6 +55,14 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         unset($this->docBlock);
     }
 
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testThrowsExceptionWhenDocBlockIsEmpty()
+    {
+        $this->docBlock->parse('');
+    }
+
     public function testGetShortDescription()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
@@ -163,10 +171,10 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
 
     /**
      * Make sure that has<Name> returns false on no @<Name>.
-     * Since has<Name> calls map to generic method hasTag(),
+     * Since has<Name> calls map to generic method call hasTag(<name>),
      * we only need to test one arbitrary has call.
      */
-    public function testHasGlobalInitiallyReturnsFalse()
+    public function testHasReturnsFalseWhenTagDoesNotExist()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/empty'));
         $this->assertFalse($this->docBlock->hasGlobal());
