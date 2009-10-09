@@ -103,13 +103,11 @@ class DocBlock
     	return trim(substr($string, 1 + strlen($tag)));
    	}
    	
-    protected function getTag(array $names)
+    protected function getTag($name)
     {
-        foreach ($names as $name) {
-		    foreach ($this->tags as $tag) {
-		        if ($this->isTag($tag, $name)) {
-		            return $this->removeTag($name, $tag);
-		        }
+		foreach ($this->tags as $tag) {
+		    if ($this->isTag($tag, $name)) {
+		        return $this->removeTag($name, $tag);
 		    }
 		}
         
@@ -200,44 +198,15 @@ class DocBlock
 		return $this->getTags(array('throws', 'exception'));
     }
     
-    public function getReturn()
+    public function __call($method, $parameters)
     {
-		return $this->getTag(array('return'));
-    }
-    
-    public function getVar()
-    {
-		return $this->getTag(array('var'));
-    }
-
-    public function getAuthor()
-    {
-		return $this->getTag(array('author'));
-    }
-
-    public function getVersion()
-    {
-		return $this->getTag(array('version'));
-    }
-
-    public function getSince()
-    {
-		return $this->getTag(array('since'));
-    }
-
-    public function getSee()
-    {
-		return $this->getTag(array('see'));
-    }
-
-    public function getDeprecated()
-    {
-		return $this->getTag(array('deprecated'));
-    }
-
-    public function getGlobal()
-    {
-		return $this->getTag(array('global'));
-    }
+        if (substr($method, 0, 3) != 'get') {
+            return;
+        }
+        
+        $tag = lcfirst(substr($method, 3));
+        
+        return $this->getTag($tag);
+    }    
 }
 ?>
