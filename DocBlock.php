@@ -103,13 +103,15 @@ class DocBlock
     	return trim(substr($string, 1 + strlen($tag)));
    	}
    	
-    protected function getTag($name)
+    protected function getTag(array $names)
     {
-        foreach ($this->tags as $tag) {
-            if ($this->isTag($tag, $name)) {
-                return $this->removeTag($name, $tag);
-            }
-        }
+        foreach ($names as $name) {
+		    foreach ($this->tags as $tag) {
+		        if ($this->isTag($tag, $name)) {
+		            return $this->removeTag($name, $tag);
+		        }
+		    }
+		}
         
         throw new RuntimeException('No @' . $name . ' tag found');
     }
@@ -200,17 +202,17 @@ class DocBlock
     
     public function getReturn()
     {
-		return $this->getTag('return');
+		return $this->getTag(array('return'));
     }
     
     public function getVar()
     {
-		return $this->getTag('var');
+		return $this->getTag(array('var'));
     }
 
     public function getAuthor()
     {
-		return $this->getTag('author');
+		return $this->getTag(array('author'));
     }
 }
 ?>
