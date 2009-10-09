@@ -107,6 +107,10 @@ class DocBlock
     {
         $this->preProcess($docblock);
         
+        $this->shortDescription = '';
+        $this->longDescription = '';
+        $this->tags = array();
+        
         // skip first /** line
         $lineNumber = 1;
 
