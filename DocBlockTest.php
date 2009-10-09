@@ -57,6 +57,14 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array('SomeException The description', 'AnotherException The other description'), $this->docBlock->getThrows());
     }
         
+    /**
+     * Make sure that getThrows() also finds @exception tags.
+     */        
+    public function testGetException()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/exception'));
+        $this->assertEquals(array('SomeException The description', 'AnotherException The other description'), $this->docBlock->getThrows());
+    }
     
     public function testParseFullVarDocBlock()
     {

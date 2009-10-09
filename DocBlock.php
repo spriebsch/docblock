@@ -130,6 +130,10 @@ class DocBlock
             if ($this->isTag($tag, 'throws')) {
                 $result[] = $this->removeTag('throws', $tag);
             }
+
+            if ($this->isTag($tag, 'exception')) {
+                $result[] = $this->removeTag('exception', $tag);
+            }
         }
         
         return $result;
