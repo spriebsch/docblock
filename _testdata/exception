@@ -1,11 +1,4 @@
 /**
- * the heading
- *
- * the body
- *
- * @param string $foo The foo parameter
- * @param int $bar Number of bars
- * @return null
  * @exception SomeException The description
  * @exception AnotherException The other description
  */
