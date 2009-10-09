@@ -199,7 +199,7 @@ class DocBlock
     }
 
     /**
-     * Delegates calls to get<name> to getTag(<name>).
+     * Delegates get<name> calls to getTag(<name>).
      *
      * @param string $method Name of the called method
      * @param array $parameters Parameters
