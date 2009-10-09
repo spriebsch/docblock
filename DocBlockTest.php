@@ -142,5 +142,11 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/version'));
         $this->assertEquals('1.0.0', $this->docBlock->getVersion());
     }
+
+    public function testGetSince()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/since'));
+        $this->assertEquals('1.0.0', $this->docBlock->getSince());
+    }
 }
 ?>
