@@ -14,28 +14,28 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         unset($this->docBlock);
     }
 
-    public function testGetHeading()
+    public function testGetShortDescription()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
-        $this->assertEquals('the heading', $this->docBlock->getHeading());
+        $this->assertEquals('the heading', $this->docBlock->getShortDescription());
     }
 
-    public function testGetHeadingFromDocBlockWithoutBody()
+    public function testGetShortDescriptionFromDocBlockWithoutBody()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/heading'));
-        $this->assertEquals('the heading', $this->docBlock->getHeading());
+        $this->assertEquals('the heading', $this->docBlock->getShortDescription());
     }
 
-    public function testGetBody()
+    public function testGetLongDescription()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
-        $this->assertEquals('the body', $this->docBlock->getBody());
+        $this->assertEquals('the body', $this->docBlock->getLongDescription());
     }
 
     public function testGetMultilineBody()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/multiline_body'));
-        $this->assertEquals('this body spans multiple lines', $this->docBlock->getBody());
+        $this->assertEquals('this body spans multiple lines', $this->docBlock->getLongDescription());
     }
 
     public function testGetParams()
@@ -70,24 +70,24 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/var_full'));
         $this->assertEquals('string', $this->docBlock->getVar());
-        $this->assertEquals('the heading', $this->docBlock->getHeading());
-        $this->assertEquals('the body', $this->docBlock->getBody());
+        $this->assertEquals('the heading', $this->docBlock->getShortDescription());
+        $this->assertEquals('the body', $this->docBlock->getLongDescription());
     }
 
     public function testParseVarOnlyDocBlock()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/var_only'));
         $this->assertEquals('string', $this->docBlock->getVar());
-        $this->assertEquals('', $this->docBlock->getHeading());
-        $this->assertEquals('', $this->docBlock->getBody());
+        $this->assertEquals('', $this->docBlock->getShortDescription());
+        $this->assertEquals('', $this->docBlock->getLongDescription());
     }
 
     public function testParseVarDocBlockWithoutBody()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/var_no_body'));
         $this->assertEquals('string', $this->docBlock->getVar());
-        $this->assertEquals('the heading', $this->docBlock->getHeading());
-        $this->assertEquals('', $this->docBlock->getBody());
+        $this->assertEquals('the heading', $this->docBlock->getShortDescription());
+        $this->assertEquals('', $this->docBlock->getLongDescription());
     }
 }
 ?>

@@ -4,8 +4,8 @@ class DocBlock
 {
     protected $docBlock = array();
 
-    protected $heading = '';
-    protected $body = '';
+    protected $shortDescription = '';
+    protected $longDescription = '';
     protected $tags = array();
     
     protected function preProcess($docblock)
@@ -69,23 +69,24 @@ class DocBlock
         // skip first /** line
         $lineNumber = 1;
 
-        // If first line is a tag, there is no heading and no body
+        // If first line is a tag, there is no short and no long description
         if (!$this->isTag($this->getLine($lineNumber))) {
-	        $this->heading = $this->getLine($lineNumber);
+	        $this->shortDescription = $this->getLine($lineNumber);
 	        $lineNumber++;    
 
-		    // skip empty lines between heading and body
+		    // skip empty lines between short and long description
 			$lineNumber = $this->skipEmptyLines($lineNumber);
 			
-		 	// body ends with a blank line or tag, or at the end of the DocBlock
+		 	// long description ends with a blank line or another tag,
+		 	// or at the end of the DocBlock
 			while (!$this->isEmptyLine($this->getLine($lineNumber)) && !$this->isTag($this->getLine($lineNumber)) && !$this->isLastLine($lineNumber)) {
-				$this->body .= $this->getLine($lineNumber) . ' ';
+				$this->longDescription .= $this->getLine($lineNumber) . ' ';
 				$lineNumber++;
 			}
 
-			$this->body = trim($this->body);
+			$this->longDescription = trim($this->longDescription);
 
-			// skip blank lines below body
+			// skip blank lines below long description
 			$lineNumber = $this->skipEmptyLines($lineNumber);
  		}
 
@@ -98,14 +99,14 @@ class DocBlock
 	    }
     }
     
-    public function getHeading()
+    public function getShortDescription()
     {
-        return $this->heading;
+        return $this->shortDescription;
     }
 
-    public function getBody()
+    public function getLongDescription()
     {
-        return $this->body;
+        return $this->longDescription;
     }
     
     public function getTag($index)
