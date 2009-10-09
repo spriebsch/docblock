@@ -206,5 +206,16 @@ class DocBlock
         
         throw new RuntimeException('No @var tag found');
     }
+
+    public function getAuthor()
+    {
+        foreach ($this->tags as $tag) {
+            if ($this->isTag($tag, 'author')) {
+                return $this->removeTag('author', $tag);
+            }
+        }
+        
+        throw new RuntimeException('No @author tag found');
+    }
 }
 ?>
