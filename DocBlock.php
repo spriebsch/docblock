@@ -208,7 +208,7 @@ class DocBlock
     public function __call($method, $parameters)
     {
         if (substr($method, 0, 3) != 'get') {
-            return;
+            throw new RuntimeException('Method ' . $method . ' does not exist');
         }
 
         // get<Name> -> <name>        
