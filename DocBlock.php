@@ -35,6 +35,12 @@
  * @license    BSD License
  */
 
+/**
+ * DocBlock Parser
+ *
+ * @author     Stefan Priebsch <stefan@priebsch.de>
+ * @copyright  Stefan Priebsch <stefan@priebsch.de>. All rights reserved.
+ */
 class DocBlock
 {
     protected $docBlock = array();

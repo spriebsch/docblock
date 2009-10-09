@@ -37,6 +37,12 @@
 
 require 'DocBlock.php';
   
+/**
+ * Tests for the DocBlock Parser.
+ *
+ * @author     Stefan Priebsch <stefan@priebsch.de>
+ * @copyright  Stefan Priebsch <stefan@priebsch.de>. All rights reserved.
+ */
 class DocBlockTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
