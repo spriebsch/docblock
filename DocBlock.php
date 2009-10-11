@@ -43,6 +43,33 @@
  */
 class DocBlock
 {
+    /**
+     * Lists supported tags that are handled by the generic accessor getTag().
+     * @param tags are also supported, but have their own accessor.
+     * @throws and @exception also have their own accessor.
+     *
+     * @var array
+     */
+    protected $supportedTags = array(
+        'author',
+        'copyright',
+        'copyright',
+        'deprecated',
+        'example',
+        'global',
+        'ignore',
+        'internal',
+        'link',
+        'package',
+        'return',
+        'see',
+        'since',
+        'subpackage',
+        'todo',
+        'var',
+        'version',
+    );
+
     protected $docBlock = array();
 
     protected $shortDescription = '';
@@ -232,6 +259,10 @@ class DocBlock
 
         // get<Name> -> <name>        
         $tag = lcfirst(substr($method, 3));
+
+        if (!in_array($tag, $this->supportedTags)) {
+        	throw new RuntimeException('Unknown tag ' . $tag);
+        }
 
         if (substr($method, 0, 3) == 'has') {
             return $this->hasTag($tag);
