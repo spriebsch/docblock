@@ -96,21 +96,47 @@ class DocBlock
         }
     }
     
+    /**
+     * Returns given line of the docblock
+     *
+     * @param int $line Line number
+     * @return string
+     */
     protected function getLine($line)
     {
         return $this->docBlock[$line];
     }
     
+    /**
+     * Returns whether given line is the last line in the docblock
+     *
+     * @param int $line Line number
+     * @return bool
+     */
     protected function isLastLine($line)
     {
         return $line == sizeof($this->docBlock) - 1;
     }
 
+    /**
+     * Returns whether string is empty (is an empty line).
+     *
+     * @param string $line String to check
+     * @return bool
+     */
     protected function isEmptyLine($string)
     {
         return strlen($string) == 0;
     }
 
+    /**
+     * Returns whether given string is a tag (starts with @),
+     * or whether given string is a given tag (starts with @<tag>).
+     *
+     * @param string $string String to check
+     * @param string $tag    Optional tag to check for
+     * @return bool
+     */
     protected function isTag($string, $tag = null)
     {
         if ($tag === null) {
@@ -121,6 +147,13 @@ class DocBlock
 	    return substr($string, 0, strlen($tag)) == $tag;
     }
     
+    /**
+     * Skips empty lines in the docblock, starting from given line.
+     * Returns the next line number that is non-empty.
+     *
+     * @param int $line Line number to start
+     * @return int
+     */
     protected function skipEmptyLines($line)
     {
 		while ($this->isEmptyLine($this->getLine($line))) {
@@ -129,12 +162,25 @@ class DocBlock
 		
 		return $line;
     }
-    
+
+    /**
+     * Removes a tag (@<tag>) from the beginning of given string.
+     *
+     * @param $tag    Tag to remove
+     * @param $string String to remove tag from
+     * @return string
+     */    
     protected function removeTag($tag, $string)
     {
     	return trim(substr($string, 1 + strlen($tag)));
    	}
 
+    /**
+     * Returns whether given tag appears in the docblock at least once.
+     *
+     * @param string $name Name of the tag (without @)
+     * @return bool
+     */
     protected function hasTag($name)
     {
 		foreach ($this->tags as $tag) {
@@ -146,6 +192,13 @@ class DocBlock
         return false;
     }
    	
+    /**
+     * Returns given tag from the docblock. Will only return one tag,
+     * so cannot be used for tags that appear more than once.
+     *
+     * @param string $name Name of the tag (without @)
+     * @return string
+     */
     protected function getTag($name)
     {
 		foreach ($this->tags as $tag) {
@@ -157,6 +210,14 @@ class DocBlock
         throw new RuntimeException('No @' . $name . ' tag found');
     }
 
+    /**
+     * Returns given tags from the docblock. This method returns an array of
+     * tags, and must thus be used for tags that appear more than once, 
+     * e.g. exception or throws.
+     *
+     * @param array $name Array of names (each without @)
+     * @return array
+     */
     protected function getTags(array $names)
     {
         $result = array();
@@ -172,6 +233,12 @@ class DocBlock
         return $result;
     }
     
+    /**
+     * Parses a docblock comment.
+     *
+     * @param string $docblock The docblock
+     * @return null
+     */
     public function parse($docblock)
     {
         $this->preProcess($docblock);
@@ -226,17 +293,33 @@ class DocBlock
             $lineNumber++;
 	    }
     }
-    
+
+    /**
+     * Returns the short description from the docblock.
+     *
+     * @return string
+     */
     public function getShortDescription()
     {
         return $this->shortDescription;
     }
 
+    /**
+     * Returns the long description from the docblock.
+     *
+     * @return string
+     */
     public function getLongDescription()
     {
         return $this->longDescription;
     }
         
+    /**
+     * Returns parameter tag (@param) of given index.
+     *
+     * @param int $index The param tag index
+     * @return string
+     */
     public function getParam($index)
     {
         if (!isset($this->paramTags[$index])) {
@@ -246,6 +329,12 @@ class DocBlock
         return str_replace('@param ', '', $this->paramTags[$index]);
     }
 
+    /**
+     * Returns type of the parameter tag of given index.
+     *
+     * @param int $index The param tag index
+     * @return string
+     */
     public function getParamType($index)
     {
         $param = $this->getParam($index);
@@ -259,6 +348,12 @@ class DocBlock
         return substr($param, 0, $pos);
     }
 
+    /**
+     * Returns variable name of the parameter tag of given index.
+     *
+     * @param int $index The param tag index
+     * @return string
+     */
     public function getParamName($index)
     {
         $param = $this->getParam($index);
@@ -281,6 +376,12 @@ class DocBlock
         return substr($param, 0, $pos);
     }
 
+    /**
+     * Returns description of the parameter tag of given index.
+     *
+     * @param int $index The param tag index
+     * @return string
+     */
     public function getParamDescription($index)
     {
         $param = $this->getParam($index);
@@ -290,11 +391,21 @@ class DocBlock
         return substr($param, strlen($paramType) + strlen($paramName) + 2);
     }
 
+    /**
+     * Returns the number of parameter (@param) tag in the docblock.
+     *
+     * @return int
+     */
     public function getNumberOfParamTags()
     {
         return sizeof($this->paramTags);
     }
     
+    /**
+     * Returns the exceptions thrown (@throws and @exception tags).
+     *
+     * @return array
+     */
     public function getThrows()
     {
 		return $this->getTags(array('throws', 'exception'));
