@@ -240,7 +240,7 @@ class DocBlock
     public function getParam($index)
     {
         if (!isset($this->paramTags[$index])) {
-            return '';
+            throw new RuntimeException('No @param tag #' . $index);
         }
     
         return str_replace('@param ', '', $this->paramTags[$index]);

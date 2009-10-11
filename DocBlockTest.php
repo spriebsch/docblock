@@ -219,7 +219,10 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
  	    $this->docBlock->doSomethingThatIsNotPossible();
     }
 
-    public function testGetParamReturnsEmptyStringWhenParameterDoesNotExist()
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testGetParamThrowsExceptionWhenParameterDoesNotExist()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
         $this->assertEquals('', $this->docBlock->getParam(2));
