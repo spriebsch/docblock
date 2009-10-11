@@ -145,6 +145,12 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('The Name <email@example.com>', $this->docBlock->getAuthor());
     }
 
+    public function testHasTag()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/author'));
+        $this->assertTrue($this->docBlock->hasAuthor());
+    }
+
     public function testGetVersion()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/version'));
