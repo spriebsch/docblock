@@ -281,6 +281,15 @@ class DocBlock
         return substr($param, 0, $pos);
     }
 
+    public function getParamDescription($index)
+    {
+        $param = $this->getParam($index);
+        $paramType = $this->getParamType($index);
+        $paramName = $this->getParamName($index);
+
+        return substr($param, strlen($paramType) + strlen($paramName) + 2);
+    }
+
     public function getNumberOfParamTags()
     {
         return sizeof($this->paramTags);
