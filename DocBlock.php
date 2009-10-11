@@ -245,6 +245,11 @@ class DocBlock
     
         return str_replace('@param ', '', $this->paramTags[$index]);
     }
+
+    public function getNumberOfParamTags()
+    {
+        return sizeof($this->paramTags);
+    }
     
     public function getThrows()
     {

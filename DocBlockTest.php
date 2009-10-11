@@ -224,5 +224,11 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
         $this->assertEquals('', $this->docBlock->getParam(2));
     }    
+
+    public function testGetNumberOfParamTags()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
+        $this->assertEquals(2, $this->docBlock->getNumberOfParamTags());
+    }    
 }
 ?>
