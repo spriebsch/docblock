@@ -203,5 +203,14 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
  	    $this->docBlock->getGlobal();
     }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testThrowsExceptionWhenNonexistingMethodIsCalled()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
+ 	    $this->docBlock->doSomethingThatIsNotPossible();
+    }
 }
 ?>
