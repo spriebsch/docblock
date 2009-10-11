@@ -246,6 +246,19 @@ class DocBlock
         return str_replace('@param ', '', $this->paramTags[$index]);
     }
 
+    public function getParamType($index)
+    {
+        $param = $this->getParam($index);
+        $pos = strpos($param, ' ');
+        
+        // No spaces, we assume that full string is the type
+        if ($pos === false) {
+            $pos = strlen($param);
+        }
+
+        return substr($param, 0, $pos);
+    }
+
     public function getNumberOfParamTags()
     {
         return sizeof($this->paramTags);

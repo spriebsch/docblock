@@ -94,6 +94,19 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('int $bar Number of bars', $this->docBlock->getParam(1));
     }
 
+    public function testGetParamType()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
+        $this->assertEquals('string', $this->docBlock->getParamType(0));
+        $this->assertEquals('int', $this->docBlock->getParamType(1));
+    }
+
+    public function testGetParamTypeForParameterWithoutDescription()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/param_without_description'));
+        $this->assertEquals('string', $this->docBlock->getParamType(0));
+    }
+
     public function testGetReturn()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
