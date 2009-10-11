@@ -218,5 +218,11 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
  	    $this->docBlock->doSomethingThatIsNotPossible();
     }
+
+    public function testGetParamReturnsEmptyStringWhenParameterDoesNotExist()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
+        $this->assertEquals('', $this->docBlock->getParam(2));
+    }    
 }
 ?>

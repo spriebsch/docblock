@@ -75,6 +75,7 @@ class DocBlock
     protected $shortDescription = '';
     protected $longDescription = '';
     protected $tags = array();
+    protected $paramTags = array();
     
     protected function preProcess($docblock)
     {
@@ -178,6 +179,7 @@ class DocBlock
         $this->shortDescription = '';
         $this->longDescription = '';
         $this->tags = array();
+        $this->paramTags = array();
         
         // skip first /** line
         $lineNumber = 1;
@@ -213,7 +215,12 @@ class DocBlock
 
             // ignore non-tag lines (for example blank ones)
      	    if ($this->isTag($line)) {
-	            $this->tags[] = $line;
+
+	     	    if ($this->isTag($line, 'param')) {
+		            $this->paramTags[] = $line;
+	     	    } else {
+		            $this->tags[] = $line;
+		        }
 	        }
 
             $lineNumber++;
@@ -232,11 +239,11 @@ class DocBlock
         
     public function getParam($index)
     {
-        if (!isset($this->tags[$index])) {
+        if (!isset($this->paramTags[$index])) {
             return '';
         }
     
-        return str_replace('@param ', '', $this->tags[$index]);
+        return str_replace('@param ', '', $this->paramTags[$index]);
     }
     
     public function getThrows()
