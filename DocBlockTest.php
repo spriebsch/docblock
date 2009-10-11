@@ -185,5 +185,14 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/global'));
         $this->assertEquals('$name Description', $this->docBlock->getGlobal());
     }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testThrowsExceptionOnUnknownTag()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
+ 	    $this->docBlock->getNonsense();
+    }
 }
 ?>
