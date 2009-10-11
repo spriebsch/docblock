@@ -130,6 +130,17 @@ class DocBlock
     }
 
     /**
+     * Returns whether string ends with a dot.
+     *
+     * @param string $line String to check
+     * @return bool
+     */
+    protected function isDotTerminated($string)
+    {
+        return substr($string, -1) == '.';
+    }
+
+    /**
      * Returns whether given string is a tag (starts with @),
      * or whether given string is a given tag (starts with @<tag>).
      *
@@ -156,6 +167,11 @@ class DocBlock
      */
     protected function skipEmptyLines($line)
     {
+        // if current line is not empty, we are done    
+        if (!$this->isEmptyLine($this->getLine($line))) {
+			return $line;        
+        }
+    
 		while ($this->isEmptyLine($this->getLine($line))) {
 			$line++;
 		}
@@ -253,8 +269,13 @@ class DocBlock
 
         // If first line is a tag, there is no short and no long description
         if (!$this->isTag($this->getLine($lineNumber))) {
-	        $this->shortDescription = $this->getLine($lineNumber);
-	        $lineNumber++;    
+	        // short description ends either with empty line, or dot at the end of a line.
+	        while (!$this->isEmptyLine($this->getLine($lineNumber)) && !$this->isDotTerminated($this->shortDescription)) {
+		        $this->shortDescription .= ' ' . trim($this->getLine($lineNumber));
+		        $lineNumber++;
+		    }
+		    
+		    $this->shortDescription = trim($this->shortDescription);
 
 		    // skip empty lines between short and long description
 			$lineNumber = $this->skipEmptyLines($lineNumber);

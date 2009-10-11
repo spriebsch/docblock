@@ -87,6 +87,28 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('this body spans multiple lines', $this->docBlock->getLongDescription());
     }
 
+    /**
+     * In a "compact" docblock, no empty line separates short and long description,
+     * but short description is dot-terminated.
+     */
+    public function testParseCompactDocblock()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock_compact'));
+        $this->assertEquals('the heading.', $this->docBlock->getShortDescription());
+        $this->assertEquals('the body', $this->docBlock->getLongDescription());
+    }
+
+    /**
+     * In a "compact" docblock, no empty line separates short and long description,
+     * but short description is dot-terminated.
+     */
+    public function testParseCompactDocblockWithMultipleLineShortDescription()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock_compact_multiline_short'));
+        $this->assertEquals('the heading that spans multiple lines.', $this->docBlock->getShortDescription());
+        $this->assertEquals('the body', $this->docBlock->getLongDescription());
+    }
+
     public function testGetParams()
     {
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
