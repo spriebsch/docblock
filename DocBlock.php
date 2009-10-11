@@ -259,6 +259,28 @@ class DocBlock
         return substr($param, 0, $pos);
     }
 
+    public function getParamName($index)
+    {
+        $param = $this->getParam($index);
+
+        // skip type
+        $param = substr($param, strlen($this->getParamType($index)) + 1);
+
+        if (substr($param, 0, 1) != '$') {
+            throw new RuntimeException('Missing variable name in @param #' . $index);
+        }
+        
+        // blank separating varname and description
+        $pos = strpos($param, ' ');
+        
+        // No space, we assume that there is no description
+        if ($pos === false) {
+            $pos = strlen($param);
+        }
+
+        return substr($param, 0, $pos);
+    }
+
     public function getNumberOfParamTags()
     {
         return sizeof($this->paramTags);
