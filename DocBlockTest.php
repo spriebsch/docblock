@@ -303,5 +303,16 @@ class DocBlockTest extends PHPUnit_Framework_TestCase
         $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock'));
         $this->assertEquals(2, $this->docBlock->getNumberOfParamTags());
     }    
+
+    /**
+     * Parse docblock when the heading is not closed.
+     * Do not have empty line and the heading does not end with a dot.
+     */
+    public function testParseDocblockContainsOnlyIncorrectHeading()
+    {
+        $this->docBlock->parse(file_get_contents(__DIR__ . '/_testdata/docblock_with_bad_heading'));
+
+        $this->assertEquals('the heading is not closed', $this->docBlock->getShortDescription());
+    }
 }
 ?>

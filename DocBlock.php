@@ -270,7 +270,7 @@ class DocBlock
         // If first line is a tag, there is no short and no long description
         if (!$this->isTag($this->getLine($lineNumber))) {
 	        // short description ends either with empty line, or dot at the end of a line.
-	        while (!$this->isEmptyLine($this->getLine($lineNumber)) && !$this->isDotTerminated($this->shortDescription)) {
+	        while (!$this->isEmptyLine($this->getLine($lineNumber)) && !$this->isDotTerminated($this->shortDescription) && !$this->isLastLine($lineNumber)) {
 		        $this->shortDescription .= ' ' . trim($this->getLine($lineNumber));
 		        $lineNumber++;
 		    }
